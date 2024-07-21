@@ -1,0 +1,1 @@
+export type ImageSrcWithFileName = { jpg: string; fileName: string }
