@@ -6,7 +6,7 @@ function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 660,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.cjs"),
@@ -17,7 +17,7 @@ function createWindow() {
   win.loadURL("http://localhost:5173");
 
   // Open the DevTools.
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 }
 
 // This method will be called when Electron has finished
@@ -62,8 +62,6 @@ ipcMain.handle(
   async (_event, dirPath, fileExtension, filesToDelete) => {
     try {
       const files = fs.readdirSync(dirPath);
-
-      console.log(files)
 
       files.forEach((file) => {
         if (path.extname(file) === fileExtension && (filesToDelete ? filesToDelete.includes(file.split(".")[0]) : true)) {
