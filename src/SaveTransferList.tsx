@@ -190,7 +190,7 @@ const SaveTransferList: FC = () => {
     <>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
         <Grid item>
-          <Stack spacing={2}>
+          <Stack spacing={2} alignItems="center">
             <Typography>Storage</Typography>
             {customList(storageImageSrcs, "storage")}
             <ButtonGroup>
@@ -243,7 +243,7 @@ const SaveTransferList: FC = () => {
           </Grid>
         </Grid>
         <Grid item>
-          <Stack spacing={2}>
+          <Stack spacing={2} alignItems="center">
             <Typography>Active Saves</Typography>
             {customList(saveImageSrcs, "save")}
             <ButtonGroup>
