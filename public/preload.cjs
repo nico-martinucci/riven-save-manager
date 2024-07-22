@@ -18,5 +18,17 @@ contextBridge.exposeInMainWorld('electron', {
   },
   copyFile: async (sourceFilePath, destDirPath) => {
     return ipcRenderer.invoke('copy-file', sourceFilePath, destDirPath)
+  },
+  selectDirectory: async () => {
+    return ipcRenderer.invoke('select-directory');
+  },
+  checkDirExists: async (dirPath) => {
+    return ipcRenderer.invoke('check-dir-exists', dirPath);
+  },
+  saveDirPath: async (dirPath, key) => {
+    return ipcRenderer.invoke('save-dir-path', dirPath, key)
+  },
+  loadDirPath: async (key) => {
+    return ipcRenderer.invoke('load-dir-path', key)
   }
 });

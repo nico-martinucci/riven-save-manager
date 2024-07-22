@@ -16,9 +16,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { SAVE_PATH, STORAGE_PATH } from "./constants";
+import { useSaveContext } from "./context";
 
 const SaveTransferList: FC = () => {
+  const { savePath, storagePath } = useSaveContext();
+
   const [storageImageSrcs, setStorageImageSrcs] =
     useState<ImageSrcWithFileName[]>();
   const [saveImageSrcs, setSaveImageSrcs] = useState<ImageSrcWithFileName[]>();
@@ -31,27 +33,27 @@ const SaveTransferList: FC = () => {
 
   const copyFileToStorage = async (fileName: string) => {
     // @ts-ignore
-    await window.electron.copyFile(`${SAVE_PATH}/${fileName}`, STORAGE_PATH);
+    await window.electron.copyFile(`${savePath}/${fileName}`, storagePath);
     // @ts-ignore
     await window.electron.copyFile(
-      `${SAVE_PATH}/${fileName.split(".")[0]}.sav`,
-      STORAGE_PATH
+      `${savePath}/${fileName.split(".")[0]}.sav`,
+      storagePath
     );
   };
 
   const copyFileToSaves = async (fileName: string) => {
     // @ts-ignore
-    await window.electron.copyFile(`${STORAGE_PATH}/${fileName}`, SAVE_PATH);
+    await window.electron.copyFile(`${storagePath}/${fileName}`, savePath);
     // @ts-ignore
     await window.electron.copyFile(
-      `${STORAGE_PATH}/${fileName.split(".")[0]}.sav`,
-      SAVE_PATH
+      `${storagePath}/${fileName.split(".")[0]}.sav`,
+      savePath
     );
   };
 
   const loadImagesInSaveDir = async () => {
     // @ts-ignore
-    const result = await window.electron.loadJpgsInDir(SAVE_PATH);
+    const result = await window.electron.loadJpgsInDir(savePath);
 
     setSaveImageSrcs(
       // @ts-ignore
@@ -65,7 +67,7 @@ const SaveTransferList: FC = () => {
 
   const loadImagesInStorageDir = async () => {
     // @ts-ignore
-    const result = await window.electron.loadJpgsInDir(STORAGE_PATH);
+    const result = await window.electron.loadJpgsInDir(storagePath);
     setStorageImageSrcs(
       // @ts-ignore
       result.data.map((jpg) => ({
@@ -77,9 +79,9 @@ const SaveTransferList: FC = () => {
 
   const deleteSavesInDir = async (filesToDelete?: string[]) => {
     // @ts-ignore
-    await window.electron.deleteFiles(SAVE_PATH, ".jpg", filesToDelete);
+    await window.electron.deleteFiles(savePath, ".jpg", filesToDelete);
     // @ts-ignore
-    await window.electron.deleteFiles(SAVE_PATH, ".sav", filesToDelete);
+    await window.electron.deleteFiles(savePath, ".sav", filesToDelete);
     loadImagesInSaveDir();
   };
 

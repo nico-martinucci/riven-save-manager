@@ -1,10 +1,21 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
-const path = require("node:path");
-const fs = require("fs");
+import {app, BrowserWindow, ipcMain, dialog} from "electron"
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from "node:path"
+import fs from 'fs'
+import os from 'os'
+import Store from 'electron-store'
+
+const store = new Store();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+let mainWindow
 
 function createWindow() {
   // Create the browser window.
-  const win = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 800,
     height: 660,
     webPreferences: {
@@ -14,7 +25,7 @@ function createWindow() {
   });
 
   //load the index.html from a url
-  win.loadURL("http://localhost:5173");
+  mainWindow.loadURL("http://localhost:5173");
 
   // Open the DevTools.
   // win.webContents.openDevTools();
@@ -46,6 +57,14 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+const getExpandedDir = (dir) => {
+  if (dir.startsWith('~')) {
+    return path.join(os.homedir(), dir.slice(1));
+  }
+
+  return dir
+}
+
 // IPC handler to save a text file
 ipcMain.handle("save-file", async (_event, filePath, content) => {
   fs.writeFileSync(filePath, content, "utf-8");
@@ -53,7 +72,7 @@ ipcMain.handle("save-file", async (_event, filePath, content) => {
 });
 
 ipcMain.handle("delete-file", async (_event, filePath) => {
-  fs.unlinkSync(filePath, () => {});
+  fs.unlinkSync(filePath);
   return { status: "success" };
 });
 
@@ -90,6 +109,8 @@ ipcMain.handle('load-jpg', async (_event, filePath) => {
 
 ipcMain.handle('load-jpgs-in-dir', async (_event, dirPath) => {
   try {
+    dirPath = getExpandedDir(dirPath)
+
     const files = fs.readdirSync(dirPath);
 
     const jpgFiles = files.filter(file => path.extname(file).toLowerCase() === '.jpg');
@@ -97,7 +118,7 @@ ipcMain.handle('load-jpgs-in-dir', async (_event, dirPath) => {
     const base64Jpgs = jpgFiles.map(jpg => {
       const filePath = path.join(dirPath, jpg);
       const data = fs.readFileSync(filePath);
-      return {jpg: data.toString('base64'), fileName: jpg};
+      return { jpg: data.toString('base64'), fileName: jpg };
     });
 
     return { status: 'success', data: base64Jpgs };
@@ -117,6 +138,49 @@ ipcMain.handle('copy-file', async (_event, sourceFilePath, destDirPath) => {
     return { status: 'success' };
   } catch (error) {
     console.error('Error copying file:', error);
+    return { status: 'failure', error: error.message };
+  }
+});
+
+ipcMain.handle('select-directory', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    properties: ['openDirectory']
+  });
+  if (result.canceled) {
+    return { status: 'cancelled' };
+  } else {
+    return { status: 'success', path: result.filePaths[0] };
+  }
+});
+
+ipcMain.handle('check-dir-exists', async (_event, dirPath) => {
+  try {
+    dirPath = getExpandedDir(dirPath)
+
+    const exists = fs.existsSync(dirPath) && fs.lstatSync(dirPath).isDirectory();
+    return { status: 'success', expandedDir: exists ? dirPath : "" };
+  } catch (error) {
+    console.error('Error checking directory existence:', error);
+    return { status: 'failure', error: error.message };
+  }
+});
+
+ipcMain.handle('save-dir-path', async (_event, dirPath, key) => {
+  try {
+    store.set(key, dirPath);
+    return { status: 'success' };
+  } catch (error) {
+    console.error('Error saving directory path:', error);
+    return { status: 'failure', error: error.message };
+  }
+});
+
+ipcMain.handle('load-dir-path', async (key) => {
+  try {
+    const dirPath = store.get(key);
+    return { status: 'success', dirPath };
+  } catch (error) {
+    console.error('Error loading directory path:', error);
     return { status: 'failure', error: error.message };
   }
 });
