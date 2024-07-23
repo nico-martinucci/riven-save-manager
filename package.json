@@ -57,5 +57,12 @@
   ],
   "config": {
     "forge": "./forge.config.mjs"
+  },
+  "build": {
+    "appId": "com.yourapp.id",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
   }
 }

@@ -30,6 +30,9 @@ function createWindow() {
 
   // Open the DevTools.
   // win.webContents.openDevTools();
+  mainWindow.webContents.on('did-fail-load', () => {
+    console.error('Window failed to load');
+  });
 }
 
 app.on('ready', () => {
