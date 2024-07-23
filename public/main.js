@@ -17,7 +17,7 @@ function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
-    height: 700,
+    height: 710,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.cjs"),
