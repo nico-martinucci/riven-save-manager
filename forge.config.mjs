@@ -11,7 +11,10 @@ export default {
       name: '@electron-forge/maker-squirrel',
       config: {
         certificateFile: './cert.pfx',
-        certificatePassword: process.env.CERTIFICATE_PASSWORD
+        certificatePassword: process.env.CERTIFICATE_PASSWORD,
+        setupMsi: {
+          enablePrivileges: true,
+        },
       }
     },
     {
