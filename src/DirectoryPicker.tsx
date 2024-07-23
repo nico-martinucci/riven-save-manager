@@ -32,8 +32,6 @@ const DirectoryPicker = () => {
       // @ts-ignore
       const result2 = await window.electron.loadDirPath("storagePath");
 
-      console.log(result2);
-
       if (result2.dirPath.storagePath)
         updateStoragePath(result2.dirPath.storagePath);
     };

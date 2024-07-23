@@ -16,8 +16,8 @@ contextBridge.exposeInMainWorld('electron', {
   loadJpgsInDir: async (dirPath) => {
     return ipcRenderer.invoke('load-jpgs-in-dir', dirPath)
   },
-  copyFile: async (sourceFilePath, destDirPath) => {
-    return ipcRenderer.invoke('copy-file', sourceFilePath, destDirPath)
+  copyFile: async (sourceFilePath, destDirPath, newFileName) => {
+    return ipcRenderer.invoke('copy-file', sourceFilePath, destDirPath, newFileName)
   },
   selectDirectory: async () => {
     return ipcRenderer.invoke('select-directory');
@@ -30,5 +30,8 @@ contextBridge.exposeInMainWorld('electron', {
   },
   loadDirPath: async (key) => {
     return ipcRenderer.invoke('load-dir-path', key)
+  },
+  clearDirPath: async (key) => {
+    return ipcRenderer.invoke('clear-dir-path', key)
   }
 });

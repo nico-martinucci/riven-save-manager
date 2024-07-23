@@ -17,7 +17,7 @@ function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
-    height: 660,
+    height: 700,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.cjs"),
@@ -128,9 +128,9 @@ ipcMain.handle('load-jpgs-in-dir', async (_event, dirPath) => {
   }
 });
 
-ipcMain.handle('copy-file', async (_event, sourceFilePath, destDirPath) => {
+ipcMain.handle('copy-file', async (_event, sourceFilePath, destDirPath, newFileName = null) => {
   try {
-    const fileName = path.basename(sourceFilePath);
+    const fileName = newFileName || path.basename(sourceFilePath);
     const destFilePath = path.join(destDirPath, fileName);
 
     fs.copyFileSync(sourceFilePath, destFilePath);
@@ -179,6 +179,16 @@ ipcMain.handle('load-dir-path', async (key) => {
   try {
     const dirPath = store.get(key);
     return { status: 'success', dirPath };
+  } catch (error) {
+    console.error('Error loading directory path:', error);
+    return { status: 'failure', error: error.message };
+  }
+});
+
+ipcMain.handle('clear-dir-path', async (key) => {
+  try {
+    store.delete(key)
+    return { status: 'success' };
   } catch (error) {
     console.error('Error loading directory path:', error);
     return { status: 'failure', error: error.message };

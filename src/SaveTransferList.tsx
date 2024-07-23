@@ -14,12 +14,15 @@ import {
   ListItemIcon,
   Modal,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useSaveContext } from "./context";
+import { generate } from "random-words";
 
 const SaveTransferList: FC = () => {
-  const { savePath, storagePath } = useSaveContext();
+  const { savePath, updateSavePath, storagePath, updateStoragePath } =
+    useSaveContext();
 
   const [storageImageSrcs, setStorageImageSrcs] =
     useState<ImageSrcWithFileName[]>();
@@ -32,22 +35,36 @@ const SaveTransferList: FC = () => {
   const [showDeleteAllModal, setShowDeleteAllModal] = useState<boolean>(false);
 
   const copyFileToStorage = async (fileName: string) => {
+    const randomWords = (generate(3) as string[]).join("-");
+
     // @ts-ignore
-    await window.electron.copyFile(`${savePath}/${fileName}`, storagePath);
+    await window.electron.copyFile(
+      `${savePath}/${fileName}`,
+      storagePath,
+      `${randomWords}.jpg`
+    );
     // @ts-ignore
     await window.electron.copyFile(
       `${savePath}/${fileName.split(".")[0]}.sav`,
-      storagePath
+      storagePath,
+      `${randomWords}.sav`
     );
   };
 
-  const copyFileToSaves = async (fileName: string) => {
+  const copyFileToSaves = async (fileName: string, num: number = 0) => {
+    const fileNumber = Number(saveImageSrcs?.length) + num;
+
     // @ts-ignore
-    await window.electron.copyFile(`${storagePath}/${fileName}`, savePath);
+    await window.electron.copyFile(
+      `${storagePath}/${fileName}`,
+      savePath,
+      `Slot${fileNumber}GameState.jpg`
+    );
     // @ts-ignore
     await window.electron.copyFile(
       `${storagePath}/${fileName.split(".")[0]}.sav`,
-      savePath
+      savePath,
+      `Slot${fileNumber}GameState.sav`
     );
   };
 
@@ -68,6 +85,7 @@ const SaveTransferList: FC = () => {
   const loadImagesInStorageDir = async () => {
     // @ts-ignore
     const result = await window.electron.loadJpgsInDir(storagePath);
+
     setStorageImageSrcs(
       // @ts-ignore
       result.data.map((jpg) => ({
@@ -75,6 +93,7 @@ const SaveTransferList: FC = () => {
         fileName: jpg.fileName,
       }))
     );
+    setStorageChecked([]);
   };
 
   const deleteSavesInDir = async (filesToDelete?: string[]) => {
@@ -85,10 +104,32 @@ const SaveTransferList: FC = () => {
     loadImagesInSaveDir();
   };
 
+  const deleteStorageInDir = async (filesToDelete?: string[]) => {
+    // @ts-ignore
+    await window.electron.deleteFiles(storagePath, ".jpg", filesToDelete);
+    // @ts-ignore
+    await window.electron.deleteFiles(storagePath, ".sav", filesToDelete);
+    loadImagesInStorageDir();
+  };
+
   useEffect(() => {
     loadImagesInSaveDir();
     loadImagesInStorageDir();
-  }, []);
+  }, [savePath, storagePath]);
+
+  const selectSaveDirectory = async () => {
+    // @ts-ignore
+    const result = await window.electron.selectDirectory();
+    updateSavePath(result.path);
+  };
+
+  const selectStorageDirectory = async () => {
+    // @ts-ignore
+    const result = await window.electron.selectDirectory();
+    updateStoragePath(result.path);
+    // @ts-ignore
+    await window.electron.saveDirPath(result.path, "storagePath");
+  };
 
   if (!saveImageSrcs || !storageImageSrcs) return;
 
@@ -113,16 +154,17 @@ const SaveTransferList: FC = () => {
     };
 
   const handleAllRight = () => {
-    storageImageSrcs.forEach(async (save) => {
-      await copyFileToSaves(save.fileName);
+    storageImageSrcs.forEach(async (save, idx) => {
+      await copyFileToSaves(save.fileName, idx);
     });
 
     loadImagesInSaveDir();
+    setStorageChecked([]);
   };
 
   const handleCheckedRight = () => {
-    storageChecked.forEach(async (save) => {
-      await copyFileToSaves(save.fileName);
+    storageChecked.forEach(async (save, idx) => {
+      await copyFileToSaves(save.fileName, idx);
     });
 
     loadImagesInSaveDir();
@@ -140,10 +182,11 @@ const SaveTransferList: FC = () => {
 
   const handleAllLeft = () => {
     saveImageSrcs.forEach(async (save) => {
-      copyFileToSaves(save.fileName);
+      copyFileToStorage(save.fileName);
     });
 
     loadImagesInStorageDir();
+    setSaveChecked([]);
   };
 
   const style = {
@@ -172,6 +215,7 @@ const SaveTransferList: FC = () => {
               key={value.fileName}
               role="listitem"
               onClick={handleToggle(value, side)}
+              onContextMenu={() => console.log("hi")}
             >
               <ListItemIcon>
                 <Checkbox
@@ -193,9 +237,33 @@ const SaveTransferList: FC = () => {
       <Grid container spacing={2} justifyContent="center" alignItems="center">
         <Grid item>
           <Stack spacing={2} alignItems="center">
-            <Typography>Storage</Typography>
+            <Stack alignItems="center">
+              <Typography variant="h6" sx={{ p: 0 }}>
+                Storage
+              </Typography>
+              <Tooltip title={`Current: ${storagePath}`}>
+                <Typography
+                  sx={{ fontSize: 10 }}
+                  component={Button}
+                  onClick={selectStorageDirectory}
+                >
+                  Change Directory
+                </Typography>
+              </Tooltip>
+            </Stack>
             {customList(storageImageSrcs, "storage")}
             <ButtonGroup>
+              {!!storageChecked.length && (
+                <Button
+                  onClick={() =>
+                    deleteStorageInDir(
+                      storageChecked.map((save) => save.fileName.split(".")[0])
+                    )
+                  }
+                >
+                  Delete Selected
+                </Button>
+              )}
               <Button onClick={loadImagesInStorageDir}>Refresh</Button>
             </ButtonGroup>
           </Stack>
@@ -246,7 +314,20 @@ const SaveTransferList: FC = () => {
         </Grid>
         <Grid item>
           <Stack spacing={2} alignItems="center">
-            <Typography>Active Saves</Typography>
+            <Stack alignItems="center">
+              <Typography variant="h6" sx={{ p: 0 }}>
+                Active Saves
+              </Typography>
+              <Tooltip title={`Current: ${savePath}`}>
+                <Typography
+                  sx={{ fontSize: 10 }}
+                  component={Button}
+                  onClick={selectSaveDirectory}
+                >
+                  Change Directory
+                </Typography>
+              </Tooltip>
+            </Stack>
             {customList(saveImageSrcs, "save")}
             <ButtonGroup>
               {saveChecked.length ? (
