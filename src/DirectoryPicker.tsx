@@ -1,6 +1,7 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { useSaveContext } from "./context";
 import { useEffect } from "react";
+import os from "os";
 
 const DirectoryPicker = () => {
   const { savePath, updateSavePath, storagePath, updateStoragePath } =
@@ -22,10 +23,21 @@ const DirectoryPicker = () => {
 
   useEffect(() => {
     const checkForDirectories = async () => {
-      // @ts-ignore
-      const result = await window.electron.checkDirExists(
-        "~/Library/Application Support/Epic/Riven/Saved/SaveGames"
-      );
+      let result;
+
+      if (os.platform() === "darwin") {
+        // @ts-ignore
+        result = await window.electron.checkDirExists(
+          "~/Library/Application Support/Epic/Riven/Saved/SaveGames"
+        );
+      }
+
+      if (os.platform() === "win32") {
+        // @ts-ignore
+        result = await window.electron.checkDirExists(
+          "~/AppData/Local/Riven/Saved/SaveGames"
+        );
+      }
 
       if (result.expandedDir) updateSavePath(result.expandedDir);
 
