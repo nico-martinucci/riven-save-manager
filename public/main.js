@@ -194,3 +194,12 @@ ipcMain.handle('clear-dir-path', async (key) => {
     return { status: 'failure', error: error.message };
   }
 });
+
+ipcMain.handle('get-os', async () => {
+  try {
+    return os.platform()
+  } catch (error) {
+    console.error('Error getting OS:', error);
+    return {status: 'failure', error: error.message}
+  }
+})

@@ -33,5 +33,8 @@ contextBridge.exposeInMainWorld('electron', {
   },
   clearDirPath: async (key) => {
     return ipcRenderer.invoke('clear-dir-path', key)
+  },
+  getOS: async () => {
+    return ipcRenderer.invoke('get-os')
   }
 });
