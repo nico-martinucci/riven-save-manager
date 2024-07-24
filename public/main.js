@@ -4,8 +4,10 @@ import { dirname } from 'path';
 import path from "node:path"
 import fs from 'fs'
 import os from 'os'
+import url from 'url'
 import Store from 'electron-store'
 import sudo from 'sudo-prompt'
+import isDev from 'electron-is-dev'
 
 const store = new Store();
 
@@ -26,7 +28,15 @@ function createWindow() {
   });
 
   //load the index.html from a url
-  mainWindow.loadURL("http://localhost:5173");
+  if (isDev) {
+    mainWindow.loadURL("http://localhost:5173")
+  } else {
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, '../dist/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }
 
   // Open the DevTools.
   // win.webContents.openDevTools();
