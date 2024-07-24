@@ -39,6 +39,7 @@
     "@typescript-eslint/parser": "^7.15.0",
     "@vitejs/plugin-react": "^4.3.1",
     "electron": "^31.2.1",
+    "electron-is-dev": "^3.0.1",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^10.0.0",
     "eslint": "^8.57.0",
@@ -60,6 +61,9 @@
   },
   "build": {
     "appId": "com.yourapp.id",
+    "directories": {
+      "output": "dist"
+    },
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico"
