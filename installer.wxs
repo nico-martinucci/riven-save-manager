@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Riven Save Manager" Language="1033" Version="0.1.0.0" Manufacturer="nicom" UpgradeCode="8466ab4c-7614-4c76-be53-4ddb02413b53">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <Media Id="1" Cabinet="cab1.cab" EmbedCab="yes" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="RivenSaveManager" />
+      </Directory>
+    </Directory>
+
+    <Feature Id="ProductFeature" Title="Riven Save Manager" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="MainExecutable" Guid="9d7ed4f2-b8d6-47dc-9c56-5a13106a8166">
+        <File Source="path\to\your\app\app-0.1.0\riven-save-manager.exe" KeyPath="yes" />
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Directory="ProgramMenuFolder"
+                  Name="Riven Save Manager"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="icon.ico"
+                  Advertise="no"
+                  IconIndex="0"
+                  Target="[INSTALLFOLDER]app-0.0.0\riven-save-manager.exe"
+                  Description="Launch Riven Save Manager" />
+        <Shortcut Id="ApplicationDesktopShortcut"
+                  Directory="DesktopFolder"
+                  Name="Riven Save Manager"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="icon.ico"
+                  Advertise="no"
+                  IconIndex="0"
+                  Target="[INSTALLFOLDER]app-0.0.0\riven-save-manager.exe"
+                  Description="Launch Riven Save Manager" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

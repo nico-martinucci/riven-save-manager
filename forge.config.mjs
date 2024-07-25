@@ -8,10 +8,10 @@ export default {
   rebuildConfig: {},
   makers: [
     {
-      name: '@electron-forge/maker-squirrel',
+      name: '@electron-forge/maker-wix',
       config: {
-        certificateFile: './cert.pfx',
-        certificatePassword: process.env.CERTIFICATE_PASSWORD,
+        language: 1033,
+        manufacturer: 'nicom'
       }
     },
     {
