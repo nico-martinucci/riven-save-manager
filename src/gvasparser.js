@@ -961,6 +961,16 @@ function logErrors(...args) {
 }
 
 export function toCurated(json, gvasArray, prefix, isMain = true) {
+    const fireMarbleSolutionIdx = Math.floor(Math.random() * 5)
+    
+    const fireMarbleSolutions = [
+        [24, 21, 12, 5, 2],
+        [23, 19, 11, 4, 0],
+        [22, 20, 7, 4, 2],
+        [24, 22, 14, 5, 1],
+        [21, 17, 6, 3, 0]
+    ]
+
     if (!Array.isArray(json)) {
         json = [json];
     }
@@ -1020,30 +1030,22 @@ export function toCurated(json, gvasArray, prefix, isMain = true) {
             //     input.dispatchEvent(new MouseEvent('click'));
             // });
         } else if (property instanceof GvasInteger) {
-            // console.log("propertyInfo.type:  ", propertyInfo.type)
-            if (propertyInfo.type) {
-                if (propertyInfo.type == 'dropdown') {
-                    let value = parseInt(property.value.int);
-                    // select.addEventListener('change', function () {
-                    //     property.value.int = parseInt(this.value);
-                    // })
-                    property.value.int = 2
-                } else if (propertyInfo.type == 'checkbox') {
-                    let value = property.value.int;
-                    // label.addEventListener('click', function () {
-                    //     input.dispatchEvent(new MouseEvent('click'));
-                    // });
+                if (propertyInfo.puzzle === 'telescope') {
+                    // property.value.int = Math.floor(Math.random() * 10) + 1
+                    property.value.int = 1
+                } else if (propertyInfo.puzzle === 'elevator') {
+                    // property.value.int = Math.floor(Math.random() * 3) + 1
+                    property.value.int = 1
+                } else if (propertyInfo.puzzle === 'fire-marble-offset-solution') {
+                    // property.value.int = fireMarbleSolutionIdx
+                    property.value.int = 0
+                } else if (propertyInfo.puzzle === 'fire-marble-offset') {
+                    // property.value.int = fireMarbleSolutions[fireMarbleSolutionIdx][propertyInfo.idx]
+                    property.value.int = 25
+                } else if (propertyInfo.puzzle === 'bolus-solution') {
+                    // property.value.int = fireMarbleSolutions[fireMarbleSolutionIdx][propertyInfo.idx]
+                    property.value.int = 0
                 }
-            } else {
-                let value = parseInt(property.value.int);
-                // input.addEventListener('input', function () {
-                //     this.value = parseInt(this.value);
-                //     if (this.value == NaN || this.value == null || this.value == undefined) {
-                //         this.value = 0;
-                //     }
-                //     property.value.int = parseInt(this.value);
-                // })
-            }
         } else if (property instanceof GvasFloat) {
             if (propertyInfo.type) {
                 if (propertyInfo.type == 'dropdown') {

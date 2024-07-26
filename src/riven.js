@@ -1,63 +1,135 @@
-export const selectRivenProperties = [{
+export const selectRivenProperties = [
+    {
         gvas: ['IntGameStates', 'C116916F4877D735A418D2916F65B733', 'Value'],
-        html: 'telescope-solution-1',
-        title: 'Digit 1',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 0,
+    }, 
+    {
         gvas: ['IntGameStates', '93C1592A4D719CB404CCA5810798FC26', 'Value'],
-        html: 'telescope-solution-2',
-        title: 'Digit 2',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 1,
+    }, 
+    {
         gvas: ['IntGameStates', 'E5B348FD453245493FD4B38C6B46BEA8', 'Value'],
-        html: 'telescope-solution-3',
-        title: 'Digit 3',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 2,
+    }, 
+    {
         gvas: ['IntGameStates', '818975CF4A6364CDC451B99FE7C88E52', 'Value'],
-        html: 'telescope-solution-4',
-        title: 'Digit 4',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 3,
+    }, 
+    {
         gvas: ['IntGameStates', 'B674A7294B3207EB744C0DA03971446A', 'Value'],
-        html: 'telescope-solution-5',
-        title: 'Digit 5',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 4,
+    }, 
+    {
         gvas: ['IntGameStates', '3E823B5F40A18302191E0D83280C683C', 'Value'],
-        html: 'telescope-solution-6',
-        title: 'Digit 6',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 5,
+    }, 
+    {
         gvas: ['IntGameStates', 'B32BF0644C06B3421E351881FF6CE557', 'Value'],
-        html: 'telescope-solution-7',
-        title: 'Digit 7',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 6,
+    }, 
+    {
         gvas: ['IntGameStates', '9B2E0ECA4C7071519EF5DABD682358D0', 'Value'],
-        html: 'telescope-solution-8',
-        title: 'Digit 8',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 7,
+    }, 
+    {
         gvas: ['IntGameStates', '82328056403E25E44D9857B2DD05289C', 'Value'],
-        html: 'telescope-solution-9',
-        title: 'Digit 9',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    }, {
+        puzzle: 'telescope',
+        idx: 8,
+    }, 
+    {
         gvas: ['IntGameStates', '4D8246E643268E7B68ECF5BB8AC22E20', 'Value'],
-        html: 'telescope-solution-10',
-        title: 'Digit 10',
-        type: 'dropdown',
-        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        puzzle: 'telescope',
+        idx: 9,
+    },
+    {
+        gvas: ['IntGameStates', '90E7D2FD48DDA23C69465D9A8751B908', 'Value'],
+        puzzle: 'elevator',
+        idx: 0
+    },
+    {
+        gvas: ['IntGameStates', 'FF15F50349E047E69175A981EFC8D359', 'Value'],
+        puzzle: 'elevator',
+        idx: 1
+    },
+    {
+        gvas: ['IntGameStates', '29D503804B5C9619BFCC3FB0D94978C2', 'Value'],
+        puzzle: 'elevator',
+        idx: 2
+    },
+    {
+        gvas: ['IntGameStates', 'AFFF1006422E266805BEFD8FAFCFE038', 'Value'],
+        puzzle: 'elevator',
+        idx: 3
+    },
+    {
+        gvas: ['IntGameStates', 'D86FD5B64B10387D901CC9862B309010', 'Value'],
+        puzzle: 'elevator',
+        idx: 4
+    },
+    {
+        gvas: ['IntGameStates', 'A2811CFB438EFFB536E926B0E066DF89', 'Value'],
+        puzzle: 'fire-marble-offset-solution'
+    },
+    {
+        // red
+        gvas: ['IntGameStates', 'E5FF19854DC3712FB898B98AA6A79183', 'Value'],
+        puzzle: 'fire-marble-offset',
+        idx: 0
+    },
+    {
+        // orange
+        gvas: ['IntGameStates', '6AEEE82148E150FC076018B62F6DB6EC', 'Value'],
+        puzzle: 'fire-marble-offset',
+        idx: 1
+    },
+    {
+        // green
+        gvas: ['IntGameStates', '65C8738A4013B3A7115CBA97984450E4', 'Value'],
+        puzzle: 'fire-marble-offset',
+        idx: 2
+    },
+    {
+        // blue
+        gvas: ['IntGameStates', '066A9CD44D13FF9309BFF4AEAD549AB4', 'Value'],
+        puzzle: 'fire-marble-offset',
+        idx: 3
+    },
+    {
+        // violet
+        gvas: ['IntGameStates', '140EE7CC4CCF6618DFE02D89559B7516', 'Value'],
+        puzzle: 'fire-marble-offset',
+        idx: 4
+    },
+    {
+        gvas: ['IntGameStates', '7FF5C77A4666C0B2D86D74A39205DC54', 'Value'],
+        puzzle: 'bolus-solution',
+    },
+
+    /*
+    Mapping of solution index to frog number and moth/fish number:
+    - 0: 5, 
+    - 1: 4,
+    - 2: 2,
+    - 3: 1,
+    - 4: 3, 
+    - 5: 1,
+    - 6: 1??
+    - 7: 1??
+    - 8:
+    - 9:
+    */
+
+    {
+        gvas: ['IntGameStates', 'FE474E824622538994C3D98658FE4F51', 'Value'],
+        puzzle: 'animal-totem-solution'
     }
 ]
 

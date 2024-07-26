@@ -241,12 +241,12 @@ ipcMain.handle('get-os', async () => {
 })
 
 ipcMain.handle('create-random-save', async () => {
-  const file = fs.readFileSync(path.join(__dirname, './Slot0GameState.sav'));
+  const file = fs.readFileSync(path.join(__dirname, './Slot1GameState.sav'));
   const arrayBuffer = file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength);
   const saveObject = fromGvas(arrayBuffer)
   toCurated(selectRivenProperties, saveObject.properties, 'riven')
   let output = toGvas(saveObject);
   const saveDirectory = path.join(os.homedir(), 'Library/Application Support/Epic/Riven/Saved/SaveGames');
-  const outputFilePath = path.join(saveDirectory, 'Slot0GameState.sav');
+  const outputFilePath = path.join(saveDirectory, 'Slot1GameState.sav');
   fs.writeFileSync(outputFilePath, Buffer.from(output));
 })
