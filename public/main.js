@@ -8,6 +8,8 @@ import url from 'url'
 import Store from 'electron-store'
 import sudo from 'sudo-prompt'
 import isDev from 'electron-is-dev'
+import { fromGvas, toCurated, toGvas } from "../src/gvasparser.js";
+import { rivenProperties, selectRivenProperties } from "../src/riven.js";
 
 const store = new Store();
 
@@ -19,7 +21,7 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
+    width: isDev ? 1600 : 800,
     height: 710,
     webPreferences: {
       nodeIntegration: true,
@@ -39,7 +41,7 @@ function createWindow() {
   }
 
   // Open the DevTools.
-  // win.webContents.openDevTools();
+  isDev && mainWindow.webContents.openDevTools();
   mainWindow.webContents.on('did-fail-load', () => {
     console.error('Window failed to load');
   });
@@ -236,4 +238,15 @@ ipcMain.handle('get-os', async () => {
     console.error('Error getting OS:', error);
     return {status: 'failure', error: error.message}
   }
+})
+
+ipcMain.handle('create-random-save', async () => {
+  const file = fs.readFileSync(path.join(__dirname, './Slot0GameState.sav'));
+  const arrayBuffer = file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength);
+  const saveObject = fromGvas(arrayBuffer)
+  toCurated(selectRivenProperties, saveObject.properties, 'riven')
+  let output = toGvas(saveObject);
+  const saveDirectory = path.join(os.homedir(), 'Library/Application Support/Epic/Riven/Saved/SaveGames');
+  const outputFilePath = path.join(saveDirectory, 'Slot0GameState.sav');
+  fs.writeFileSync(outputFilePath, Buffer.from(output));
 })

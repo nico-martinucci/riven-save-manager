@@ -34,6 +34,15 @@ const SaveTransferList: FC = () => {
 
   const [showDeleteAllModal, setShowDeleteAllModal] = useState<boolean>(false);
 
+  const randomSave = async () => {
+    // @ts-ignore
+    await window.electron.createRandomSave();
+  };
+
+  useEffect(() => {
+    randomSave();
+  }, []);
+
   const copyFileToStorage = async (fileName: string) => {
     const randomWords = (generate(3) as string[]).join("-");
 
@@ -215,7 +224,6 @@ const SaveTransferList: FC = () => {
               key={value.fileName}
               role="listitem"
               onClick={handleToggle(value, side)}
-              onContextMenu={() => console.log("hi")}
             >
               <ListItemIcon>
                 <Checkbox
