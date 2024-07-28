@@ -960,26 +960,25 @@ function logErrors(...args) {
     console.error(args);
 }
 
-export function toCurated(json, gvasArray, prefix, isMain = true) {
-    const fireMarbleSolutionIdx = Math.floor(Math.random() * 5)
-    
-    const fireMarbleSolutions = [
-        [24, 21, 12, 5, 2],
-        [23, 19, 11, 4, 0],
-        [22, 20, 7, 4, 2],
-        [24, 22, 14, 5, 1],
-        [21, 17, 6, 3, 0]
-    ]
 
-    const animalSolutionIdx = Math.floor(Math.random() * 5)
+const fireMarbleSolutions = [
+    [24, 21, 12, 5, 2],
+    [23, 19, 11, 4, 0],
+    [22, 20, 7, 4, 2],
+    [24, 22, 14, 5, 1],
+    [21, 17, 6, 3, 0]
+]
 
-    const animalSolutions = [
-        [15, 10, 21, 3, 17],
-        [21, 15, 3, 17, 10],
-        [3, 17, 10, 21, 15],
-        [17, 3, 15, 10, 21],
-        [10, 21, 17, 15, 3]
-    ]
+
+const animalSolutions = [
+    [15, 10, 21, 3, 17],
+    [21, 15, 3, 17, 10],
+    [3, 17, 10, 21, 15],
+    [17, 3, 15, 10, 21],
+    [10, 21, 17, 15, 3]
+]
+
+export function randomizeSaveValues(json, gvasArray, fireMarbleSolutionIdx, animalSolutionIdx) {
 
     if (!Array.isArray(json)) {
         json = [json];
@@ -989,15 +988,13 @@ export function toCurated(json, gvasArray, prefix, isMain = true) {
         let property = fetchNamedPropertyFromArray(gvas, gvasArray);
 
         if (property instanceof GvasMap) {
-            if (prefix == 'myst' || prefix == 'firmament' || prefix == 'riven') {
-                let key = new GvasString();
-                key.value = propertyInfo.gvas[1];
-                let property2 = fetchPropertyFromMap(key, property.value.entries);
-                let newJson = structuredClone(propertyInfo);
-                newJson.gvas = propertyInfo.gvas[2];
-                toCurated(newJson, property2, prefix, isMain);
-                continue;
-            }
+            let key = new GvasString();
+            key.value = propertyInfo.gvas[1];
+            let property2 = fetchPropertyFromMap(key, property.value.entries);
+            let newJson = structuredClone(propertyInfo);
+            newJson.gvas = propertyInfo.gvas[2];
+            randomizeSaveValues(newJson, property2, fireMarbleSolutionIdx, animalSolutionIdx);
+            continue;
         } else if (property instanceof GvasInteger) {
             if (propertyInfo.puzzle === 'telescope') {
                 property.value.int = Math.floor(Math.random() * 10) + 1

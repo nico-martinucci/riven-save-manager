@@ -8,7 +8,7 @@ import url from 'url'
 import Store from 'electron-store'
 import sudo from 'sudo-prompt'
 import isDev from 'electron-is-dev'
-import { fromGvas, toCurated, toGvas } from "../src/gvasparser.js";
+import { fromGvas, randomizeSaveValues, toGvas } from "../src/gvasparser.js";
 import { selectRivenProperties } from "../src/riven.js";
 
 const store = new Store();
@@ -244,10 +244,17 @@ ipcMain.handle('create-random-save', async (_event, num) => {
   const file = fs.readFileSync(path.join(__dirname, './Slot0GameState.sav'));
   const arrayBuffer = file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength);
   const saveObject = fromGvas(arrayBuffer)
-  toCurated(selectRivenProperties, saveObject.properties, 'riven')
+
+  const fireMarbleSolutionIdx = Math.floor(Math.random() * 5)
+  const animalSolutionIdx = Math.floor(Math.random() * 5)
+
+  randomizeSaveValues(selectRivenProperties, saveObject.properties, fireMarbleSolutionIdx, animalSolutionIdx)
+
   let output = toGvas(saveObject);
+
   const saveDirectory = path.join(os.homedir(), 'Library/Application Support/Epic/Riven/Saved/SaveGames');
   const outputFilePath = path.join(saveDirectory, `Slot${num}GameState.sav`);
+
   fs.writeFileSync(outputFilePath, Buffer.from(output));
   fs.copyFileSync(path.join(__dirname, './Slot0GameState.jpg'), path.join(saveDirectory, `Slot${num}GameState.jpg`));
 })

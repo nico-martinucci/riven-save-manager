@@ -112,6 +112,28 @@ export const selectRivenProperties = [
         gvas: ['IntGameStates', '7FF5C77A4666C0B2D86D74A39205DC54', 'Value'],
         puzzle: 'bolus-solution',
     },
+
+    /*
+    Mapping of solution index to frog number:
+    - 0: 5 -> Fish Beetle Moth Sunner Frog Wahrk 15 10 21 3 17 0
+    - 1: 4 -> Moth Fish Sunner Frog Beetle Wahrk 21 15 3 17 10 0
+    - 2: 2 -> Sunner Frog Beetle Moth Fish Wahrk 3 17 10 21 15 0
+    - 3: 1 -> Frog Sunner Fish Beetle Moth Wahrk 17 3 15 10 21 0
+    - 4: 3 -> Beetle Moth Frog Fish Sunner Wahrk 10 21 17 15 3 0
+    - 5: 1,
+    - 6: 1??
+    - 7: 1??
+    - 8:
+    - 9:
+
+    prison island position:
+    x: 44747.03514969013
+    y: 8978.897474852023
+    z: 128.55800172403607
+
+    rebel viewer collected: AE66B762411A053A062614B76F71DB34
+    */
+
     {
         gvas: ['IntGameStates', 'FE474E824622538994C3D98658FE4F51', 'Value'],
         puzzle: 'animal-totem-solution'
