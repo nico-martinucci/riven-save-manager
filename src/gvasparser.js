@@ -971,6 +971,16 @@ export function toCurated(json, gvasArray, prefix, isMain = true) {
         [21, 17, 6, 3, 0]
     ]
 
+    const animalSolutionIdx = Math.floor(Math.random() * 5)
+
+    const animalSolutions = [
+        [15, 10, 21, 3, 17],
+        [21, 15, 3, 17, 10],
+        [3, 17, 10, 21, 15],
+        [17, 3, 15, 10, 21],
+        [10, 21, 17, 15, 3]
+    ]
+
     if (!Array.isArray(json)) {
         json = [json];
     }
@@ -988,81 +998,21 @@ export function toCurated(json, gvasArray, prefix, isMain = true) {
                 toCurated(newJson, property2, prefix, isMain);
                 continue;
             }
-        } else if (property instanceof GvasStruct) {
-            if (property.value.length == 1) {
-                let subProperty = property.value[0];
-                if (subProperty instanceof Vector || subProperty instanceof Rotator) {
-                    let vector = subProperty.value;
-                    let letters = ['x', 'y', 'z'];
-                    for (const letter of letters) {
-                        // input.addEventListener('input', function () {
-                        //     vector[letter] = this.value;
-                        // })
-                    }
-                }
-            }
-        } else if (property instanceof GvasString) {
-            if (propertyInfo.values) {
-                if (propertyInfo.type == 'select') {
-                    let value = property.value;
-                    // select.addEventListener('change', function () {
-                    //     property.value = this.value;
-                    // })
-                } else if (propertyInfo.type == 'selects-comma') {
-                    let value = property.value.split(',');
-                    value = value.slice(0, value.length - 1);
-                    for (let i = 0; i < propertyInfo.quantity; i++) {
-                        // select.addEventListener('change', function () {
-                        //     let value = property.value.split(',');
-                        //     value = value.slice(0, value.length - 1);
-                        //     value[parseInt(this.getAttribute('index'))] = this.value;
-                        //     property.value = value.join(',') + ',';
-                        // })
-                    }
-                }
-            }
-        } else if (property instanceof GvasBoolean) {
-            let value = property.value;
-            // input.addEventListener('input', function () {
-            //     property.value = this.checked;
-            // });
-            // label.addEventListener('click', function () {
-            //     input.dispatchEvent(new MouseEvent('click'));
-            // });
         } else if (property instanceof GvasInteger) {
-                if (propertyInfo.puzzle === 'telescope') {
-                    // property.value.int = Math.floor(Math.random() * 10) + 1
-                    property.value.int = 1
-                } else if (propertyInfo.puzzle === 'elevator') {
-                    // property.value.int = Math.floor(Math.random() * 3) + 1
-                    property.value.int = 1
-                } else if (propertyInfo.puzzle === 'fire-marble-offset-solution') {
-                    // property.value.int = fireMarbleSolutionIdx
-                    property.value.int = 0
-                } else if (propertyInfo.puzzle === 'fire-marble-offset') {
-                    // property.value.int = fireMarbleSolutions[fireMarbleSolutionIdx][propertyInfo.idx]
-                    property.value.int = 25
-                } else if (propertyInfo.puzzle === 'bolus-solution') {
-                    // property.value.int = fireMarbleSolutions[fireMarbleSolutionIdx][propertyInfo.idx]
-                    property.value.int = 0
-                }
-        } else if (property instanceof GvasFloat) {
-            if (propertyInfo.type) {
-                if (propertyInfo.type == 'dropdown') {
-                    let value = parseFloat(property.value.float);
-                    // select.addEventListener('change', function () {
-                    //     property.value.float = parseFloat(this.value);
-                    // })
-                }
-            } else {
-                let value = parseFloat(property.value.float);
-                // input.addEventListener('input', function () {
-                //     this.value = parseFloat(this.value);
-                //     if (this.value == NaN || this.value == null || this.value == undefined) {
-                //         this.value = 0.0;
-                //     }
-                //     property.value.float = parseFloat(this.value);
-                // })
+            if (propertyInfo.puzzle === 'telescope') {
+                property.value.int = Math.floor(Math.random() * 10) + 1
+            } else if (propertyInfo.puzzle === 'elevator') {
+                property.value.int = Math.floor(Math.random() * 3) + 1
+            } else if (propertyInfo.puzzle === 'bolus-solution') {
+                property.value.int = Math.floor(Math.random() * 5)
+            } else if (propertyInfo.puzzle === 'fire-marble-offset-solution') {
+                property.value.int = fireMarbleSolutionIdx
+            } else if (propertyInfo.puzzle === 'fire-marble-offset') {
+                property.value.int = fireMarbleSolutions[fireMarbleSolutionIdx][propertyInfo.idx]
+            } else if (propertyInfo.puzzle === 'animal-totem-solution') {
+                property.value.int = animalSolutionIdx
+            } else if (propertyInfo.puzzle === 'animal-totem') {
+                property.value.int = animalSolutions[animalSolutionIdx][propertyInfo.idx]
             }
         }
     }

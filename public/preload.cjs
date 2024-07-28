@@ -37,7 +37,7 @@ contextBridge.exposeInMainWorld('electron', {
   getOS: async () => {
     return ipcRenderer.invoke('get-os')
   },
-  createRandomSave: async () => {
-    return ipcRenderer.invoke('create-random-save')
+  createRandomSave: async (num) => {
+    return ipcRenderer.invoke('create-random-save', num)
   }
 });

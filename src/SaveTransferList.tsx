@@ -36,12 +36,9 @@ const SaveTransferList: FC = () => {
 
   const randomSave = async () => {
     // @ts-ignore
-    await window.electron.createRandomSave();
+    await window.electron.createRandomSave(saveImageSrcs?.length);
+    loadImagesInSaveDir();
   };
-
-  useEffect(() => {
-    randomSave();
-  }, []);
 
   const copyFileToStorage = async (fileName: string) => {
     const randomWords = (generate(3) as string[]).join("-");
@@ -354,6 +351,7 @@ const SaveTransferList: FC = () => {
                 </Button>
               )}
               <Button onClick={loadImagesInSaveDir}>Refresh</Button>
+              <Button onClick={randomSave}>Generate</Button>
             </ButtonGroup>
           </Stack>
         </Grid>
