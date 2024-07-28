@@ -1,5 +1,6 @@
 import {FusesPlugin} from '@electron-forge/plugin-fuses'
 import {FuseV1Options, FuseVersion} from '@electron/fuses'
+import path from 'path'
 
 export default {
   packagerConfig: {
@@ -11,7 +12,9 @@ export default {
       name: '@electron-forge/maker-wix',
       config: {
         language: 1033,
-        manufacturer: 'nicom'
+        manufacturer: 'nicom',
+        setupIcon: path.resolve(__dirname, 'assets/icons/fileicon_Mwe_icon.ico'),
+        iconUrl: 'http://url-to-your/icon.ico',
       }
     },
     {

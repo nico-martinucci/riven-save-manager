@@ -23,6 +23,7 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     width: isDev ? 1600 : 800,
     height: 710,
+    icon: path.join(__dirname, (os.platform() === "darwin" ? "../assets/icons/assxg-g5zg1.icns" : "../assets/icons/fileicon_Mwe/icon.ico")),
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.cjs"),
