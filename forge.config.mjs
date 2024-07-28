@@ -1,6 +1,9 @@
 import {FusesPlugin} from '@electron-forge/plugin-fuses'
 import {FuseV1Options, FuseVersion} from '@electron/fuses'
 import path from 'path'
+import { dirname } from 'path';
+
+const __dirname = dirname(__filename);
 
 export default {
   packagerConfig: {
