@@ -21,9 +21,9 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: isDev ? 1600 : 800,
+    width: isDev ? 1600 : 820,
     height: 710,
-    icon: path.join(__dirname, (os.platform() === "darwin" ? "../assets/icons/assxg-g5zg1.icns" : "../assets/icons/fileicon_Mwe/icon.ico")),
+    icon: path.join(__dirname, (os.platform() === "darwin" ? "./icons/icon.icns" : "./icons/icon.ico")),
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.cjs"),
@@ -49,9 +49,9 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-  if (os.platform() === 'win32') {
-    requestAdminPermissions();
-  }
+  // if (os.platform() === 'win32') {
+  //   requestAdminPermissions();
+  // }
   createWindow();
 });
 
@@ -253,7 +253,7 @@ ipcMain.handle('create-random-save', async (_event, num) => {
 
   let output = toGvas(saveObject);
 
-  const saveDirectory = path.join(os.homedir(), 'Library/Application Support/Epic/Riven/Saved/SaveGames');
+  const saveDirectory = path.join(os.homedir(), (os.platform() === 'darwin' ? 'Library/Application Support/Epic/Riven/Saved/SaveGames' : 'AppData/Local/Riven/Saved/SaveGames'));
   const outputFilePath = path.join(saveDirectory, `Slot${num}GameState.sav`);
 
   fs.writeFileSync(outputFilePath, Buffer.from(output));

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Riven Save Manager" Language="1033" Version="0.1.0.0" Manufacturer="nicom" UpgradeCode="8466ab4c-7614-4c76-be53-4ddb02413b53">
+  <Product Id="*" Name="Riven Save Manager" Language="1033" Version="0.2.0.0" Manufacturer="nicom" UpgradeCode="8466ab4c-7614-4c76-be53-4ddb02413b53">
     <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -9,37 +9,49 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="RivenSaveManager" />
+        <Directory Id="INSTALLFOLDER" Name="RivenSaveManager">
+          <Directory Id="INSTALLFOLDER_ICON" Name="icons" />
+        </Directory>
       </Directory>
     </Directory>
 
     <Feature Id="ProductFeature" Title="Riven Save Manager" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
     </Feature>
+
+    <Icon Id="appIcon.ico" SourceFile="dist/icons/icon.ico"/>
   </Product>
 
   <Fragment>
     <DirectoryRef Id="INSTALLFOLDER">
       <Component Id="MainExecutable" Guid="9d7ed4f2-b8d6-47dc-9c56-5a13106a8166">
-        <File Source="path\to\your\app\app-0.1.0\riven-save-manager.exe" KeyPath="yes" />
+        <File Id="RivenSaveManagerExe" Source="path\to\your\app\app-0.1.0\riven-save-manager.exe" KeyPath="yes" Icon="appIcon.ico" />
+
         <Shortcut Id="ApplicationStartMenuShortcut"
                   Directory="ProgramMenuFolder"
                   Name="Riven Save Manager"
                   WorkingDirectory="INSTALLFOLDER"
-                  Icon="icon.ico"
+                  Icon="appIcon.ico"
                   Advertise="no"
                   IconIndex="0"
-                  Target="[INSTALLFOLDER]app-0.0.0\riven-save-manager.exe"
-                  Description="Launch Riven Save Manager" />
+                  Target="[INSTALLFOLDER]riven-save-manager.exe"
+                  Description="Launch Riven Save Manager"> 
+                      <Icon Id="appIcon.ico" SourceFile="dist/icons/icon.ico"/>
+
+          </Shortcut>
+
         <Shortcut Id="ApplicationDesktopShortcut"
                   Directory="DesktopFolder"
                   Name="Riven Save Manager"
                   WorkingDirectory="INSTALLFOLDER"
-                  Icon="icon.ico"
+                  Icon="appIcon.ico"
                   Advertise="no"
                   IconIndex="0"
-                  Target="[INSTALLFOLDER]app-0.0.0\riven-save-manager.exe"
-                  Description="Launch Riven Save Manager" />
+                  Target="[INSTALLFOLDER]riven-save-manager.exe"
+                  Description="Launch Riven Save Manager"> 
+                      <Icon Id="appIcon.ico" SourceFile="dist/icons/icon.ico"/>
+
+                  </Shortcut>
       </Component>
     </DirectoryRef>
   </Fragment>

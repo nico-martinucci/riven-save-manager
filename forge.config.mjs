@@ -1,13 +1,16 @@
 import {FusesPlugin} from '@electron-forge/plugin-fuses'
 import {FuseV1Options, FuseVersion} from '@electron/fuses'
-import path from 'path'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url';
 import { dirname } from 'path';
 
+const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename);
 
 export default {
   packagerConfig: {
     asar: true,
+    icon: path.resolve(__dirname, 'public/icons/icon')
   },
   rebuildConfig: {},
   makers: [
@@ -16,7 +19,7 @@ export default {
       config: {
         language: 1033,
         manufacturer: 'nicom',
-        setupIcon: path.resolve(__dirname, 'assets/icons/fileicon_Mwe_icon.ico'),
+        setupIcon: path.resolve(__dirname, 'icons/icon.ico'),
         iconUrl: 'http://url-to-your/icon.ico',
       }
     },
