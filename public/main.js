@@ -22,7 +22,7 @@ function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: isDev ? 1600 : 820,
-    height: 710,
+    height: 730,
     icon: path.join(__dirname, (os.platform() === "darwin" ? "./icons/icon.icns" : "./icons/icon.ico")),
     webPreferences: {
       nodeIntegration: true,

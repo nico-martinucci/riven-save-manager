@@ -265,6 +265,7 @@ const SaveTransferList: FC = () => {
                       storageChecked.map((save) => save.fileName.split(".")[0])
                     )
                   }
+                  color="error"
                 >
                   Delete Selected
                 </Button>
@@ -272,6 +273,7 @@ const SaveTransferList: FC = () => {
               <Button onClick={loadImagesInStorageDir}>Refresh</Button>
             </ButtonGroup>
           </Stack>
+          <Box sx={{ height: 50 }}></Box>
         </Grid>
         <Grid item>
           <Grid container direction="column" alignItems="center">
@@ -342,16 +344,24 @@ const SaveTransferList: FC = () => {
                       saveChecked.map((save) => save.fileName.split(".")[0])
                     )
                   }
+                  color="error"
                 >
                   Delete Selected
                 </Button>
               ) : (
-                <Button onClick={() => setShowDeleteAllModal(true)}>
+                <Button
+                  onClick={() => setShowDeleteAllModal(true)}
+                  color="error"
+                >
                   Delete All
                 </Button>
               )}
               <Button onClick={loadImagesInSaveDir}>Refresh</Button>
-              <Button onClick={randomSave}>Generate</Button>
+            </ButtonGroup>
+            <ButtonGroup>
+              <Button onClick={randomSave} variant="contained">
+                Generate Randomized Start
+              </Button>
             </ButtonGroup>
           </Stack>
         </Grid>
@@ -376,6 +386,7 @@ const SaveTransferList: FC = () => {
                   deleteSavesInDir();
                   setShowDeleteAllModal(false);
                 }}
+                variant="contained"
               >
                 Confirm
               </Button>
